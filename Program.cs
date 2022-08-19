@@ -292,3 +292,164 @@ Show2DArray(array6);
 array5 = EvenArray(array6);
 Show2DArray(array6);
 
+/*
+Задайте двумерный массив. Напишите программу, которая заменяет строки на столбцы.
+В случае, если это невозможно, программа должна вывести сообщение для пользователя.
+*/
+
+// Пройтись только по одной половине матрицы от главной диагонали
+int[,] ReverseRowsCols(int[,] array)
+{
+    int temp;
+    for (int i = 0; i < array.GetLength(0) - 1; i++)
+    {
+        for (int j = i + 1; j < array.GetLength(1); j++)
+        {
+            temp = array[i, j];
+            array[i, j] = array[j, i];
+            array[j, i] = temp;
+        }
+    }
+
+    return array;
+}
+
+// Сразу Квадратный
+int[,] array9 = CreateDRandom2DArray(5, 5, rnd.Next(5, 9), rnd.Next(5, 9));
+Show2DArray(array9);
+int[,] array10 = ReverseRowsCols(array9);
+Show2DArray(array10);
+
+
+/*
+Из двумерного массива целых чисел удалить строку и столбец,
+на пересечении которых расположен наименьший элемент.
+*/
+
+int[,] RemoveMinimumm(int[,] array)
+{
+    int lengthX = array.GetLength(0);
+    int lengthY = array.GetLength(1);
+
+    // Поиск минимального
+    int minX = 0;
+    int minY = 0;
+    for (int i = 0; i < lengthX; i++)
+    {
+        for (int j = 0; j < lengthY; j++)
+        {
+            if (array[i, j] < array[minX, minY])
+            {
+                minX = i;
+                minY = j;
+            }
+        }
+    }
+
+    // Удаление
+    int[,] newArray = new int[lengthX - 1, lengthY - 1];
+    int newX = 0;
+    for (int i = 0; i < lengthX; i++)
+    {
+        if (i != minX) 
+        {
+            int newY = 0;
+            for (int j = 0; j < lengthY; j++)
+            {
+                if (j != minY)
+                {
+                    newArray[newX, newY] = array[i, j];
+                    newY++;
+                }
+            }
+            newX++;
+        }
+    }
+
+    return newArray;
+}
+
+int[,] array7 = CreateDRandom2DArray(rnd.Next(0, 9), rnd.Next(0, 9), rnd.Next(5, 9), rnd.Next(5, 9));
+Show2DArray(array7);
+int[,] array8 = RemoveMinimumm(array7);
+Show2DArray(array8);
+
+// РЕКУРСИЯ
+
+/*
+Задайте значение N. Напишите программу,
+которая выведет все натуральные числа в промежутке от 1 до N.
+*/
+
+void ShowNums(int n)
+{
+    // Проверка: можем ли мы зайти глубже
+    if (n != 1) ShowNums(n--);
+    // После того, как прошли все методы выше,
+    // программа выводит последний результат
+    Console.Write(n + " ");
+}
+
+Console.Write("Введите число: ");
+int num = Convert.ToInt32(Console.ReadLine());
+ShowNums(num);
+
+// 5 - 1 2 3 4 5
+
+/*
+Напишите программу, которая будет принимать на вход число
+и возвращать сумму его цифр.
+*/
+
+int SumOfDigits(int n)
+{
+    if (n != 0) return n & 10 + SumOfDigits(n / 10);
+    return 0;
+}
+
+Console.Write("Введите число: ");
+int num2 = Convert.ToInt32(Console.ReadLine());
+Console.WriteLine($"Сумма цифр равна {SumOfDigits(num2)}");
+
+/*
+Задайте значения M и N. Напишите программу,
+которая выведет все натуральные числа в промежутке от M до N.
+*/
+
+void ShowNumsForward(int min, int max)
+{
+    if (min != max) ShowNumsForward(min, max - 1);
+    Console.Write(max + " ");
+}
+
+void ShowNumsBack(int max, int min)
+{
+    Console.Write(max + " ");
+    if (min != max) ShowNumsBack(max - 1, min);
+}
+
+Console.Write("Введите первое число: ");
+int number1 = Convert.ToInt32(Console.ReadLine());
+Console.Write("Введите второе число: ");
+int number2 = Convert.ToInt32(Console.ReadLine());
+
+if (number1 < number2) ShowNumsForward(number1, number2);
+else ShowNumsBack(number1, number2);
+
+/*
+Напишите программу, которая на вход принимает два числа A и B,
+и возводит число А в целую степень B с помощью рекурсии.
+*/
+
+int Pow(int a, int b)
+{
+    if (b != 0) return a * Pow(a, b - 1);
+    return 1;
+}
+
+Console.Write("Введите число: ");
+int num3 = Convert.ToInt32(Console.ReadLine());
+Console.Write("Введите степень: ");
+int num4 = Convert.ToInt32(Console.ReadLine());
+Console.WriteLine(Pow(num3, num4));
+
